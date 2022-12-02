@@ -152,8 +152,6 @@ void SetWaterColor(int x, int y)
 	// Get the difference between the height of the sand and the height of the water
 	int heightDif = (point->height * 2 - (sandHeight[x][y])) * 200;
 
-	// TODO : Improve the color
-
 	// If the water is close to the sand
 	int blueCol = point->height * 11;
 	if (heightDif <= 20)
@@ -178,12 +176,10 @@ void SetWaterColor(int x, int y)
 	}
 	else
 	{
-		// int blueCol = point->height * 11;
 		if (clearWater)
 			point->color = RGB15(blueCol, blueCol, 7 + blueCol);
 		else
 			point->color = RGB15(5 - (int)(blueCol / 2.0), 11 - blueCol, 31 - blueCol);
-		// point->color = RGB15((int)(blueCol / 2.0), blueCol, 20 + blueCol);
 	}
 }
 
