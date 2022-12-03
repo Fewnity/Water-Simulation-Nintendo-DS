@@ -4,6 +4,7 @@
 #include "noise.h"
 #include <time.h>
 
+// Asset from Nitro Engine's font example
 #include "text_bmp_bin.h"
 
 NE_Material *TextMaterial = NULL;
@@ -19,11 +20,14 @@ int main(void)
 	// Set sand height
 	float sandXOff = 10;
 	float sandYOff = 5;
-	for (int x = 0; x < 10; x++)
+	for (int x = 0; x < WATER_SIZE; x++)
 	{
-		for (int y = 0; y < 10; y++)
+		for (int y = 0; y < WATER_SIZE; y++)
 		{
-			sandHeight[x][y] = noise2((x + sandXOff) / 4.0, (y + sandYOff) / 4.0) * 2 - 1;
+			// Set sand height from noise
+			sandHeight[x][y].height = noise2((x + sandXOff) / 4.0, (y + sandYOff) / 4.0) * 2 - 1;
+			// Get height int version for fast water simulation
+			sandHeight[x][y].intHeight = sandHeight[x][y].height * 4096;
 		}
 	}
 
@@ -47,15 +51,20 @@ int main(void)
 				8, 8);		  // Size of one character (x, y)
 
 	InitGraphics();
-	UpdateWater();
+
+	// Init water grid
+	UpdateWater(true);
 
 	// Render the scene
 	while (true)
 	{
+		// Check player inputs
 		scanKeys();
 		int keysdown = keysDown();
 		if (keysdown & KEY_A)
-			clearWater = !clearWater;
+			ChangeWaterStyle();
+		if (keysdown & KEY_B)
+			ChangeWaterMode();
 
 		NE_Process(Draw3DScene);
 		NE_WaitForVBL(NE_CAN_SKIP_VBL);

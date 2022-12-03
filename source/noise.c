@@ -116,7 +116,7 @@ float grad2(int hash, float x, float y)
 	int h = hash & 7;		 // Convert low 3 bits of hash code
 	float u = h < 4 ? x : y; // into 8 simple gradient directions,
 	float v = h < 4 ? y : x; // and compute the dot product with (x,y).
-	return ((h & 1) ? -u : u) + ((h & 2) ? -2.0 * v : 2.0 * v);
+	return ((h & 1) ? -u : u) + ((h & 2) ? -2.0f * v : 2.0f * v);
 }
 
 float grad3(int hash, float x, float y, float z)
@@ -213,8 +213,7 @@ float noise2(float x, float y)
 	n1 = LERP(t, nx0, nx1);
 
 	// return 0.507f * (LERP(s, n0, n1));
-	return 0.5 - (0.507f * (LERP(s, n0, n1)) * 1.31) / 2.0;
-	// return (0.40f * (LERP(s, n0, n1))) / 2.0;
+	return 0.5f - (0.507f * (LERP(s, n0, n1)) * 1.31f) / 2.0f;
 }
 
 //---------------------------------------------------------------------
